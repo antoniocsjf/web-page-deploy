@@ -1,38 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webpage
+  name: nginx-deployment
+  labels:
+    app: nginx
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webpage
+      app: nginx
   template:
     metadata:
       labels:
-        app: webpage
+        app: nginx
     spec:
       containers:
-      - name: webpage
-        image: fabricioveronez/pagina-exemplo:blue
-        ports:
-        - containerPort: 80
-        resources
-          requests:
-            cpu: 100m
-            memory: 256Mi
-          limits:
-            cpu: 100m
-            memory: 256Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: webpage
-spec:
-  selector:
-    app: webpage
-  ports:
-  - port: 80
-    targetPort: 80
-  type: NodePort
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
